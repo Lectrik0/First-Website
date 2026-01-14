@@ -11,6 +11,8 @@ export interface Project {
     github?: string;  // Changed from githubUrl
     live?: string | null;  // Changed from liveUrl
     imageUrl?: string;
+    bounty?: string;  // Bounty amount (e.g., "฿500,000,000")
+    status?: 'active' | 'completed';  // Project status
 }
 
 export interface Quest {
