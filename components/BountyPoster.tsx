@@ -11,8 +11,8 @@ interface BountyPosterProps {
 }
 
 export default function BountyPoster({ project, index }: BountyPosterProps) {
-    // Use useMemo to ensure consistent tilt between server and client
-    const randomTilt = useMemo(() => (Math.random() - 0.5) * 4, [project.id]);
+    // Use deterministic tilt based on index to ensure server/client match
+    const randomTilt = useMemo(() => (Math.sin(index + 1) * 4), [index]);
 
     return (
         <motion.div
