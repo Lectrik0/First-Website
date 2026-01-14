@@ -131,7 +131,7 @@ export default function AdminLogin() {
                         transition={{ delay: 1 }}
                         className="mt-6 text-center text-xs font-mono text-smoke/50"
                     >
-                        "The sword is but a tool. The mind is the true weapon."
+                        &ldquo;The sword is but a tool. The mind is the true weapon.&rdquo;
                     </motion.p>
                 </motion.div>
 

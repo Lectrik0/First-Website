@@ -14,10 +14,12 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
-        // Check if admin session exists
-        const adminSession = sessionStorage.getItem('admin-session');
-        if (adminSession === 'true') {
-            setIsAdmin(true);
+        if (typeof window !== 'undefined') {
+            // Check if admin session exists (using localStorage for persistence)
+            const adminSession = localStorage.getItem('admin-session');
+            if (adminSession === 'true') {
+                setIsAdmin(true);
+            }
         }
     }, []);
 
@@ -25,7 +27,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         // Simple auth (in production, use proper backend)
         if (username === 'sensei' && password === 'vagabond2024') {
             setIsAdmin(true);
-            sessionStorage.setItem('admin-session', 'true');
+            localStorage.setItem('admin-session', 'true');
             return true;
         }
         return false;
@@ -33,7 +35,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
     const logout = () => {
         setIsAdmin(false);
-        sessionStorage.removeItem('admin-session');
+        localStorage.removeItem('admin-session');
     };
 
     return (

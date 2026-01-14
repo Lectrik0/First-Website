@@ -7,6 +7,9 @@ import AnimatedBackground from "@/components/AnimatedBackground";
 import VagabondWatermark from "@/components/VagabondWatermark";
 import SakuraRain from "@/components/SakuraRain";
 import { AdminProvider } from "@/contexts/AdminContext";
+import QuakeTerminal from "@/components/QuakeTerminal";
+import ZenMode from "@/components/ZenMode";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 export const metadata: Metadata = {
     title: "Ali Ahmed | Digital Ronin",
@@ -34,7 +37,11 @@ export default function RootLayout({
                         <SakuraRain />
                         <PageLoader />
                         <CustomCursor />
-                        {children}
+                        <ErrorBoundary>
+                            {children}
+                        </ErrorBoundary>
+                        <QuakeTerminal />
+                        <ZenMode />
                     </AdminProvider>
                 </ThemeProvider>
             </body>

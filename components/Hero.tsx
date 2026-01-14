@@ -120,7 +120,7 @@ export default function Hero() {
                             href="#path"
                             whileHover={{ scale: 1.02, x: 4 }}
                             whileTap={{ scale: 0.98 }}
-                            className="ink-button group relative overflow-hidden"
+                            className="ink-button group relative overflow-hidden hover:shadow-[0_0_20px_rgba(255,183,197,0.3)] transition-shadow duration-300"
                         >
                             <motion.span
                                 className="relative z-10"

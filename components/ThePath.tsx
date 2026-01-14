@@ -31,7 +31,7 @@ export default function ThePath() {
             <div className="max-w-6xl mx-auto">
                 {/* Section Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 1, y: 0 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
@@ -48,7 +48,7 @@ export default function ThePath() {
 
                 {/* Education */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 1, y: 0 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, delay: 0.2 }}
@@ -83,7 +83,7 @@ export default function ThePath() {
 
                 {/* Certifications */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 1, y: 0 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, delay: 0.4 }}
@@ -117,7 +117,7 @@ export default function ThePath() {
 
                 {/* Skills */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 1, y: 0 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, delay: 0.6 }}
@@ -133,7 +133,7 @@ export default function ThePath() {
                             return (
                                 <motion.div
                                     key={index}
-                                    initial={{ opacity: 0, x: -20 }}
+                                    initial={{ opacity: 1, x: 0 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.6, delay: index * 0.1 }}

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Mail, Linkedin, Twitter, Github } from 'lucide-react';
 import { useState } from 'react';
+import PGPSignature from './PGPSignature';
 
 export default function Contact() {
     const [formData, setFormData] = useState({
@@ -37,7 +38,7 @@ export default function Contact() {
             <div className="max-w-4xl mx-auto">
                 {/* Section Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 1, y: 0 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
@@ -54,7 +55,7 @@ export default function Contact() {
 
                 {/* Contact Form */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 1, y: 0 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, delay: 0.2 }}
@@ -133,7 +134,7 @@ export default function Contact() {
 
                 {/* Social Links */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 1, y: 0 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.4 }}
@@ -161,9 +162,12 @@ export default function Contact() {
                     })}
                 </motion.div>
 
+                {/* PGP Signature */}
+                <PGPSignature />
+
                 {/* Footer Quote */}
                 <motion.div
-                    initial={{ opacity: 0 }}
+                    initial={{ opacity: 1 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, delay: 0.6 }}
