@@ -1,18 +1,38 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import LogPose from '@/components/dashboard/LogPose';
 import QuestLog from '@/components/dashboard/QuestLog';
 import TheTreasury from '@/components/dashboard/TheTreasury';
 import VisualMemory from '@/components/dashboard/VisualMemory';
+import FarmingArc from '@/components/dashboard/FarmingArc';
+import TheLibrary from '@/components/dashboard/TheLibrary';
 import { motion } from 'framer-motion';
 import { Compass } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function LifePage() {
+    const router = useRouter();
+    const { isRonin, isLoaded } = useAuth();
+
+    // Protect this route - redirect if not authenticated
+    useEffect(() => {
+        if (isLoaded && !isRonin) {
+            router.push('/');
+        }
+    }, [isLoaded, isRonin, router]);
+
+    // Show nothing while checking auth or if not authenticated
+    if (!isLoaded || !isRonin) {
+        return null;
+    }
+
     return (
         <>
             <Navbar />
-            <main className="min-h-screen bg-paper dark:bg-charcoal text-ink dark:text-bone pt-24 pb-12 transition-colors duration-500">
+            <main className="min-h-screen pt-24 pb-12">
                 {/* Header */}
                 <section className="px-6 lg:px-8 mb-12 max-w-7xl mx-auto">
                     <motion.div
@@ -63,12 +83,32 @@ export default function LifePage() {
                             <TheTreasury />
                         </motion.div>
 
-                        {/* Widget 4: Visual Memory */}
+                        {/* Widget 4: The Farming Arc */}
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.4 }}
+                            className="lg:col-span-1"
+                        >
+                            <FarmingArc />
+                        </motion.div>
+
+                        {/* Widget 5: The Library */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.5 }}
                             className="lg:col-span-2"
+                        >
+                            <TheLibrary />
+                        </motion.div>
+
+                        {/* Widget 6: Visual Memory */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.6 }}
+                            className="lg:col-span-3"
                         >
                             <VisualMemory />
                         </motion.div>

@@ -100,7 +100,7 @@ export default function CustomCursor() {
                 </motion.div>
             </motion.div>
 
-            {/* Ink Blot on Click */}
+            {/* Ink Blot on Click - Centered */}
             {isClicking && (
                 <motion.div
                     initial={{ scale: 0, opacity: 1 }}
@@ -110,10 +110,14 @@ export default function CustomCursor() {
                     style={{
                         left: cursorPosition.x,
                         top: cursorPosition.y,
-                        transform: 'translate(-50%, -50%)',
                     }}
                 >
-                    <div className="w-8 h-8 rounded-full bg-white mix-blend-difference" />
+                    <div
+                        className="w-8 h-8 rounded-full bg-white mix-blend-difference"
+                        style={{
+                            transform: 'translate(-50%, -50%)',
+                        }}
+                    />
                 </motion.div>
             )}
         </>

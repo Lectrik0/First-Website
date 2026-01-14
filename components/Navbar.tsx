@@ -2,17 +2,23 @@
 
 import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
+import { LogOut } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import Link from 'next/link';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Navbar() {
     const pathname = usePathname();
+    const { isRonin, logout } = useAuth();
 
-    const navLinks = [
-        { name: 'The Path', href: '/' },
-        { name: 'The Dojo', href: '/work' },
-        { name: 'The Quarters', href: '/life' },
+    const allNavLinks = [
+        { name: 'The Path', href: '/', public: true },
+        { name: 'The Dojo', href: '/work', public: true },
+        { name: 'The Quarters', href: '/life', public: false }, // Ronin only
     ];
+
+    // Filter links based on authentication
+    const navLinks = allNavLinks.filter(link => link.public || isRonin);
 
     return (
         <motion.nav
@@ -29,8 +35,8 @@ export default function Navbar() {
                             className="flex items-center space-x-2 group cursor-pointer"
                             whileHover={{ x: 2 }}
                         >
-                            <h1 className="text-lg font-playfair font-black text-ink dark:text-bone tracking-tight">
-                                ALI <span className="font-light">AHMED</span>
+                            <h1 className="text-lg font-cinzel font-black text-ink dark:text-bone tracking-tight uppercase">
+                                ALI AHMED
                             </h1>
                         </motion.div>
                     </Link>
@@ -51,8 +57,8 @@ export default function Navbar() {
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.6, delay: 0.2 + index * 0.1, ease: 'easeOut' }}
                                         className={`font-playfair font-bold text-sm uppercase tracking-widest transition-colors duration-300 ${isActive
-                                                ? 'text-ink dark:text-bone'
-                                                : 'text-smoke hover:text-ink dark:hover:text-bone'
+                                            ? 'text-ink dark:text-bone'
+                                            : 'text-smoke hover:text-ink dark:hover:text-bone'
                                             }`}
                                     >
                                         {link.name}
@@ -73,14 +79,31 @@ export default function Navbar() {
                         })}
                     </div>
 
-                    {/* Theme Toggle */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.6, delay: 0.5 }}
-                    >
-                        <ThemeToggle />
-                    </motion.div>
+                    {/* Right side controls */}
+                    <div className="flex items-center gap-4">
+                        {/* Logout Button (Ronin only) */}
+                        {isRonin && (
+                            <motion.button
+                                onClick={logout}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.6, delay: 0.5 }}
+                                className="text-smoke hover:text-blood transition-colors"
+                                title="Logout"
+                            >
+                                <LogOut className="w-4 h-4" />
+                            </motion.button>
+                        )}
+
+                        {/* Theme Toggle */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.6, delay: 0.5 }}
+                        >
+                            <ThemeToggle />
+                        </motion.div>
+                    </div>
                 </div>
             </div>
         </motion.nav>
