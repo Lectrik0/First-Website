@@ -23,42 +23,42 @@ interface Star {
     duration: number;
 }
 
+// Define the galaxy nodes (skills) - Moved outside component for optimization
+const nodes: Node[] = [
+    // Core Skills (Bone White Ink Splatters)
+    { id: 'python', x: 25, y: 30, label: 'Python', type: 'core', status: 'Mastered' },
+    { id: 'linux', x: 50, y: 20, label: 'Linux', type: 'core', status: 'Mastered' },
+    { id: 'javascript', x: 75, y: 35, label: 'JavaScript', type: 'core', status: 'Mastered' },
+    { id: 'security', x: 50, y: 50, label: 'Cybersecurity', type: 'core', status: 'Mastered' },
+
+    // Secondary Skills (Faint Grey Ink Splatters)
+    { id: 'django', x: 20, y: 50, label: 'Django', type: 'secondary', status: 'Proficient' },
+    { id: 'react', x: 80, y: 55, label: 'React', type: 'secondary', status: 'Proficient' },
+    { id: 'docker', x: 45, y: 70, label: 'Docker', type: 'secondary', status: 'Proficient' },
+    { id: 'bash', x: 55, y: 35, label: 'Bash', type: 'secondary', status: 'Mastered' },
+    { id: 'git', x: 65, y: 65, label: 'Git', type: 'secondary', status: 'Mastered' },
+    { id: 'sql', x: 35, y: 65, label: 'SQL', type: 'secondary', status: 'Proficient' },
+    { id: 'burpsuite', x: 60, y: 80, label: 'Burp Suite', type: 'secondary', status: 'Proficient' },
+    { id: 'metasploit', x: 40, y: 80, label: 'Metasploit', type: 'secondary', status: 'Learning' },
+];
+
+// Define brush stroke connections - Moved outside component
+const links: Link[] = [
+    { source: 'python', target: 'django' },
+    { source: 'python', target: 'security' },
+    { source: 'linux', target: 'bash' },
+    { source: 'linux', target: 'docker' },
+    { source: 'javascript', target: 'react' },
+    { source: 'security', target: 'burpsuite' },
+    { source: 'security', target: 'metasploit' },
+    { source: 'docker', target: 'git' },
+    { source: 'bash', target: 'linux' },
+    { source: 'sql', target: 'django' },
+];
+
 export default function GalaxyMap() {
     const [hoveredNode, setHoveredNode] = useState<string | null>(null);
     const [stars, setStars] = useState<Star[]>([]);
-
-    // Define the galaxy nodes (skills)
-    const nodes: Node[] = [
-        // Core Skills (Bone White Ink Splatters)
-        { id: 'python', x: 25, y: 30, label: 'Python', type: 'core', status: 'Mastered' },
-        { id: 'linux', x: 50, y: 20, label: 'Linux', type: 'core', status: 'Mastered' },
-        { id: 'javascript', x: 75, y: 35, label: 'JavaScript', type: 'core', status: 'Mastered' },
-        { id: 'security', x: 50, y: 50, label: 'Cybersecurity', type: 'core', status: 'Mastered' },
-
-        // Secondary Skills (Faint Grey Ink Splatters)
-        { id: 'django', x: 20, y: 50, label: 'Django', type: 'secondary', status: 'Proficient' },
-        { id: 'react', x: 80, y: 55, label: 'React', type: 'secondary', status: 'Proficient' },
-        { id: 'docker', x: 45, y: 70, label: 'Docker', type: 'secondary', status: 'Proficient' },
-        { id: 'bash', x: 55, y: 35, label: 'Bash', type: 'secondary', status: 'Mastered' },
-        { id: 'git', x: 65, y: 65, label: 'Git', type: 'secondary', status: 'Mastered' },
-        { id: 'sql', x: 35, y: 65, label: 'SQL', type: 'secondary', status: 'Proficient' },
-        { id: 'burpsuite', x: 60, y: 80, label: 'Burp Suite', type: 'secondary', status: 'Proficient' },
-        { id: 'metasploit', x: 40, y: 80, label: 'Metasploit', type: 'secondary', status: 'Learning' },
-    ];
-
-    // Define brush stroke connections
-    const links: Link[] = [
-        { source: 'python', target: 'django' },
-        { source: 'python', target: 'security' },
-        { source: 'linux', target: 'bash' },
-        { source: 'linux', target: 'docker' },
-        { source: 'javascript', target: 'react' },
-        { source: 'security', target: 'burpsuite' },
-        { source: 'security', target: 'metasploit' },
-        { source: 'docker', target: 'git' },
-        { source: 'bash', target: 'linux' },
-        { source: 'sql', target: 'django' },
-    ];
 
     // Generate stars only on client side to avoid hydration mismatch
     useEffect(() => {
@@ -175,6 +175,7 @@ export default function GalaxyMap() {
                                     left: `${node.x}%`,
                                     top: `${node.y}%`,
                                     transform: 'translate(-50%, -50%)',
+                                    willChange: 'transform, opacity',
                                 }}
                             >
                                 {/* Ink Splatter (Organic Shape) */}

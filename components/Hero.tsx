@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { RoughNotation } from 'react-rough-notation';
 import { Github, Linkedin, Mail } from 'lucide-react';
 
 export default function Hero() {
@@ -8,7 +9,6 @@ export default function Hero() {
 
     // Parallax effects
     const nameY = useTransform(scrollYProgress, [0, 1], [0, -50]);
-    const subtitleY = useTransform(scrollYProgress, [0, 1], [0, -30]);
     const inkSplashScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.5]);
     const kanjiRotate = useTransform(scrollYProgress, [0, 1], [0, 5]);
 
@@ -95,14 +95,15 @@ export default function Hero() {
 
                     {/* Subtitle with Parallax */}
                     <motion.div
-                        style={{ y: subtitleY }}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 1, delay: 1.8 }}
                         className="mb-12"
                     >
                         <h2 className="text-2xl md:text-3xl font-playfair text-charcoal dark:text-smoke mb-4">
-                            Security Researcher & Developer
+                            <RoughNotation type="highlight" show={true} color="#FFB7C5" animationDelay={2000} animationDuration={1000}>
+                                Security Researcher & Developer
+                            </RoughNotation>
                         </h2>
                         <p className="text-lg font-playfair italic text-ash dark:text-smoke max-w-xl">
                             "The way of the warrior is found in death. Meditation on inevitable death should be performed daily."
@@ -214,3 +215,4 @@ export default function Hero() {
         </section>
     );
 }
+

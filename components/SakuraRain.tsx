@@ -44,6 +44,7 @@ export default function SakuraRain() {
                     style={{
                         left: '0vw',
                         top: `${petal.y}%`,
+                        willChange: 'transform',
                     }}
                     animate={{
                         x: ['0vw', '110vw'], // Horizontal left to right

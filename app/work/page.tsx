@@ -3,10 +3,12 @@
 import Navbar from '@/components/Navbar';
 import GalaxyMap from '@/components/GalaxyMap';
 import BountyPoster from '@/components/BountyPoster';
-import TheArchives from '@/components/TheArchives';
-import TheCourier from '@/components/TheCourier';
 import { motion } from 'framer-motion';
 import { useDataStore } from '@/hooks/useDataStore';
+import dynamic from 'next/dynamic';
+
+const TheArchives = dynamic(() => import('@/components/TheArchives'), { ssr: false });
+const TheCourier = dynamic(() => import('@/components/TheCourier'), { ssr: false });
 
 export default function WorkPage() {
     const { projects } = useDataStore();

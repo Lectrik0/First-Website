@@ -384,6 +384,7 @@ h6 {
   transition-duration: 200ms;
   transition-timing-function: ease-out;
 }
+
 /* Global Noise Overlay - Brutalist Ink Aesthetic */
 .noise-overlay {
   position: fixed;
