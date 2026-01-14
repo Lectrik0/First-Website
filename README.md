@@ -118,16 +118,3 @@ npm run lint     # Run ESLint
 - **Typography**: Playfair Display, Noto Serif JP
 - **Theme**: Custom "Ink & Blade" monochrome system
 
-## 📄 License
-
-MIT License - feel free to use this as a template for your own portfolio!
-
-## 🤝 Contributing
-
-This is a personal portfolio template. Feel free to fork and customize for your own use!
-
----
-
-**"Every master was once a beginner. Every expert started as a student."** - Digital Ronin Philosophy
-
-Built with ⚔️ by Ibrahim Elhaddad
