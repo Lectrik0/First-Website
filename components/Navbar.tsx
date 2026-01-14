@@ -28,7 +28,7 @@ export default function Navbar() {
                             whileHover={{ x: 2 }}
                         >
                             <h1 className="text-lg font-playfair font-black text-ink dark:text-bone tracking-tight">
-                                IBRAHIM <span className="font-light">ELHADDAD</span>
+                                ALI <span className="font-light">AHMED</span>
                             </h1>
                         </motion.div>
                     </Link>

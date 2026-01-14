@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import CustomCursor from "@/components/CustomCursor";
+import PageLoader from "@/components/PageLoader";
+import AnimatedBackground from "@/components/AnimatedBackground";
+import VagabondWatermark from "@/components/VagabondWatermark";
+import { AdminProvider } from "@/contexts/AdminContext";
 
 export const metadata: Metadata = {
-    title: "Ibrahim Elhaddad | Digital Ronin",
+    title: "Ali Ahmed | Digital Ronin",
     description: "Security Researcher & Developer. Walking the path between tradition and innovation, mastering the art of digital security.",
     keywords: ["security", "cybersecurity", "developer", "researcher", "portfolio"],
 };
@@ -22,7 +27,13 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange={false}
                 >
-                    {children}
+                    <AdminProvider>
+                        <AnimatedBackground />
+                        <VagabondWatermark />
+                        <PageLoader />
+                        <CustomCursor />
+                        {children}
+                    </AdminProvider>
                 </ThemeProvider>
             </body>
         </html>

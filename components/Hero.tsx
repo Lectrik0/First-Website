@@ -1,68 +1,104 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Github, Linkedin, Mail } from 'lucide-react';
 
 export default function Hero() {
+    const { scrollYProgress } = useScroll();
+
+    // Parallax effects
+    const nameY = useTransform(scrollYProgress, [0, 1], [0, -50]);
+    const subtitleY = useTransform(scrollYProgress, [0, 1], [0, -30]);
+    const inkSplashScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.5]);
+    const kanjiRotate = useTransform(scrollYProgress, [0, 1], [0, 5]);
+
     const socialLinks = [
         { icon: Github, href: '#', label: 'GitHub' },
         { icon: Linkedin, href: '#', label: 'LinkedIn' },
         { icon: Mail, href: '#contact', label: 'Email' },
     ];
 
+    // Split name into characters for stagger animation
+    const firstName = 'ALI'.split('');
+    const lastName = 'Ahmed'.split('');
+
     return (
         <section
             id="home"
-            className="min-h-screen flex items-center px-4 pt-24 pb-16 relative kanji-watermark"
-            data-kanji="無双"
+            className="min-h-screen flex items-center px-4 pt-24 pb-16 relative overflow-hidden"
         >
-            {/* Manga Panel Layout - Asymmetric Split */}
+            {/* Animated Kanji Watermark */}
+            <motion.div
+                className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                style={{ rotate: kanjiRotate }}
+            >
+                <motion.span
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 0.02, scale: 1 }}
+                    transition={{ duration: 2, ease: 'easeOut' }}
+                    className="text-[25rem] md:text-[35rem] font-noto font-black text-ink dark:text-bone leading-none"
+                >
+                    無双
+                </motion.span>
+            </motion.div>
+
+            {/* Manga Panel Layout */}
             <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-0 relative">
 
-                {/* Left Panel - Text Content (8 columns) */}
-                <motion.div
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-                    className="lg:col-span-7 relative z-10 py-12 lg:py-24"
-                >
-                    {/* Terminal Prompt */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.6, delay: 0.4 }}
-                        className="mb-6"
-                    >
-                        <p className="terminal-prompt font-mono text-xs uppercase tracking-wider">
-                            whoami
-                        </p>
+                {/* Left Panel - Text Content */}
+                <div className="lg:col-span-7 relative z-10 py-12 lg:py-24">
+                    {/* Name - Character by Character Reveal */}
+                    <motion.div style={{ y: nameY }} className="mb-8">
+                        <div className="mb-2">
+                            {firstName.map((char, i) => (
+                                <motion.span
+                                    key={i}
+                                    initial={{ opacity: 0, y: 20, rotateX: -90 }}
+                                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                                    transition={{
+                                        duration: 0.8,
+                                        delay: 0.4 + (i * 0.05),
+                                        ease: [0.16, 1, 0.3, 1]
+                                    }}
+                                    className="inline-block text-6xl md:text-8xl lg:text-9xl font-cinzel font-black text-ink dark:text-bone uppercase"
+                                >
+                                    {char}
+                                </motion.span>
+                            ))}
+                        </div>
+                        <div>
+                            {lastName.map((char, i) => (
+                                <motion.span
+                                    key={i}
+                                    initial={{ opacity: 0, y: 20, rotateX: -90 }}
+                                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                                    transition={{
+                                        duration: 0.8,
+                                        delay: 0.8 + (i * 0.05),
+                                        ease: [0.16, 1, 0.3, 1]
+                                    }}
+                                    className="inline-block text-6xl md:text-8xl lg:text-9xl font-cinzel font-black text-ink dark:text-bone uppercase"
+                                >
+                                    {char}
+                                </motion.span>
+                            ))}
+                        </div>
                     </motion.div>
 
-                    {/* Name - Manga Title Style */}
-                    <motion.h1
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
-                        className="text-6xl md:text-8xl lg:text-9xl font-playfair font-black text-ink dark:text-bone leading-none mb-6"
-                    >
-                        IBRAHIM
-                        <br />
-                        <span className="font-light italic">Elhaddad</span>
-                    </motion.h1>
-
-                    {/* Ink Stroke Divider */}
+                    {/* Ink Stroke Divider - Draws in */}
                     <motion.div
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
-                        transition={{ duration: 0.6, delay: 1, ease: 'easeOut' }}
-                        className="w-32 h-1 bg-ink dark:bg-bone mb-8 origin-left"
+                        transition={{ duration: 1, delay: 1.5, ease: 'easeOut' }}
+                        className="w-32 h-1 bg-ink dark:bg-bone my-8 origin-left"
                     />
 
-                    {/* Subtitle */}
+                    {/* Subtitle with Parallax */}
                     <motion.div
+                        style={{ y: subtitleY }}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ duration: 0.8, delay: 1.2 }}
+                        transition={{ duration: 1, delay: 1.8 }}
                         className="mb-12"
                     >
                         <h2 className="text-2xl md:text-3xl font-playfair text-charcoal dark:text-smoke mb-4">
@@ -77,86 +113,96 @@ export default function Hero() {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 1.4 }}
+                        transition={{ duration: 0.8, delay: 2 }}
                         className="flex flex-wrap gap-4 mb-12"
                     >
-                        <a
+                        <motion.a
                             href="#path"
-                            className="ink-button"
+                            whileHover={{ scale: 1.02, x: 4 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="ink-button group relative overflow-hidden"
                         >
-                            VIEW JOURNEY
-                        </a>
+                            <motion.span
+                                className="relative z-10"
+                                initial={{ opacity: 1 }}
+                                whileHover={{ opacity: 1 }}
+                            >
+                                VIEW JOURNEY
+                            </motion.span>
+                        </motion.a>
 
-                        <a
+                        <motion.a
                             href="#contact"
+                            whileHover={{ x: 4 }}
+                            whileTap={{ scale: 0.98 }}
                             className="px-6 py-3 font-playfair font-bold text-ink dark:text-bone border-b-2 border-ink dark:border-bone hover:border-blood transition-colors"
                         >
                             CONTACT
-                        </a>
+                        </motion.a>
                     </motion.div>
 
-                    {/* Social Links - Minimal */}
+                    {/* Social Links */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ duration: 0.6, delay: 1.6 }}
+                        transition={{ duration: 0.8, delay: 2.2 }}
                         className="flex items-center gap-6"
                     >
                         {socialLinks.map((social, index) => {
                             const Icon = social.icon;
                             return (
-                                <a
+                                <motion.a
                                     key={index}
                                     href={social.href}
+                                    whileHover={{ scale: 1.1, y: -2 }}
+                                    whileTap={{ scale: 0.95 }}
                                     className="w-10 h-10 border border-ink dark:border-bone flex items-center justify-center text-ink dark:text-bone hover:bg-ink hover:dark:bg-bone hover:text-paper hover:dark:text-void transition-all duration-300"
                                     aria-label={social.label}
                                 >
                                     <Icon className="w-5 h-5" strokeWidth={1.5} />
-                                </a>
+                                </motion.a>
                             );
                         })}
                     </motion.div>
-                </motion.div>
+                </div>
 
-                {/* Right Panel - Negative Space with Ink Splash (5 columns) */}
+                {/* Right Panel - Ink Splash with Scale Animation */}
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1, delay: 0.8, ease: 'easeOut' }}
-                    className="lg:col-span-5 relative hidden lg:flex items-center justify-center ink-splash"
+                    className="lg:col-span-5 relative hidden lg:flex items-center justify-center"
+                    style={{ scale: inkSplashScale }}
                 >
-                    {/* Vertical Ink Splash */}
                     <div className="relative w-full h-[500px]">
+                        {/* Vertical brush stroke */}
                         <motion.div
                             initial={{ scaleY: 0 }}
                             animate={{ scaleY: 1 }}
-                            transition={{ duration: 1.2, delay: 1, ease: 'easeOut' }}
+                            transition={{ duration: 1.5, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
                             className="absolute right-0 top-0 w-2 h-full bg-ink dark:bg-bone origin-top"
                             style={{ transform: 'rotate(-2deg)' }}
                         />
 
-                        {/* Splash marks */}
+                        {/* Ink splash marks */}
                         <motion.div
                             initial={{ scale: 0, opacity: 0 }}
                             animate={{ scale: 1, opacity: 0.1 }}
-                            transition={{ duration: 0.6, delay: 1.4 }}
+                            transition={{ duration: 0.8, delay: 1.6 }}
                             className="absolute right-10 top-20 w-32 h-32 rounded-full bg-ink dark:bg-bone blur-2xl"
                         />
                         <motion.div
                             initial={{ scale: 0, opacity: 0 }}
                             animate={{ scale: 1, opacity: 0.08 }}
-                            transition={{ duration: 0.6, delay: 1.6 }}
+                            transition={{ duration: 0.8, delay: 1.8 }}
                             className="absolute right-5 bottom-32 w-24 h-24 rounded-full bg-ink dark:bg-bone blur-xl"
                         />
                     </div>
                 </motion.div>
             </div>
 
-            {/* Scroll Indicator - Minimal */}
+            {/* Scroll Indicator */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 2 }}
+                transition={{ duration: 1, delay: 2.5 }}
                 className="absolute bottom-8 left-1/2 -translate-x-1/2"
             >
                 <motion.div
