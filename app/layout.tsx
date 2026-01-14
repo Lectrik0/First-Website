@@ -5,6 +5,7 @@ import CustomCursor from "@/components/CustomCursor";
 import PageLoader from "@/components/PageLoader";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import VagabondWatermark from "@/components/VagabondWatermark";
+import SakuraRain from "@/components/SakuraRain";
 import { AdminProvider } from "@/contexts/AdminContext";
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default function RootLayout({
                     <AdminProvider>
                         <AnimatedBackground />
                         <VagabondWatermark />
+                        <SakuraRain />
                         <PageLoader />
                         <CustomCursor />
                         {children}

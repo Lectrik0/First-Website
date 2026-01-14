@@ -26,7 +26,7 @@ export default function Contact() {
     };
 
     const socialLinks = [
-        { icon: Mail, href: 'mailto:ibrahim@example.com', label: 'Email' },
+        { icon: Mail, href: 'mailto:ali@example.com', label: 'Email' },
         { icon: Github, href: 'https://github.com/yourusername', label: 'GitHub' },
         { icon: Linkedin, href: 'https://linkedin.com/in/yourusername', label: 'LinkedIn' },
         { icon: Twitter, href: 'https://twitter.com/yourusername', label: 'Twitter' },
@@ -170,7 +170,7 @@ export default function Contact() {
                     className="mt-16 text-center"
                 >
                     <p className="font-playfair text-sm text-ash dark:text-smoke italic">
-                        © 2024 Ibrahim Elhaddad. Walking the path between tradition and innovation.
+                        © 2024 Ali Ahmed. Walking the path between tradition and innovation.
                     </p>
                 </motion.div>
             </div>
