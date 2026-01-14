@@ -3,9 +3,13 @@
 import { motion } from 'framer-motion';
 import { Mail, Linkedin, Twitter, Github } from 'lucide-react';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import PGPSignature from './PGPSignature';
+import { useDataStore } from '@/hooks/useDataStore';
 
 export default function Contact() {
+    const { isAdmin, toggleAdmin } = useDataStore();
+    const router = useRouter();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -165,13 +169,30 @@ export default function Contact() {
                 {/* PGP Signature */}
                 <PGPSignature />
 
+                {/* Hidden Hanko Stamp Trigger */}
+                <motion.div
+                    initial={{ opacity: 1 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.5 }}
+                    className="mt-12 flex justify-center"
+                >
+                    <div
+                        onDoubleClick={() => router.push('/hidden-login')}
+                        className="text-6xl opacity-10 hover:opacity-30 transition-opacity cursor-default select-none"
+                        title="印"
+                    >
+                        印
+                    </div>
+                </motion.div>
+
                 {/* Footer Quote */}
                 <motion.div
                     initial={{ opacity: 1 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, delay: 0.6 }}
-                    className="mt-16 text-center"
+                    className="mt-8 text-center"
                 >
                     <p className="font-playfair text-sm text-ash dark:text-smoke italic">
                         © 2024 Ali Ahmed. Walking the path between tradition and innovation.

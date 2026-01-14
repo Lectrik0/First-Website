@@ -2,43 +2,12 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Github, ExternalLink, Trophy, Target, Edit, Save, Plus, Trash2, Lock, Unlock } from 'lucide-react';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
-
-interface Project {
-    id: string;
-    title: string;
-    description: string;
-    tech: string[];
-    github: string;
-    live: string | null;
-}
+import { Github, ExternalLink, Trophy, Target, Edit, Save, Plus, Trash2, Unlock } from 'lucide-react';
+import { useDataStore, type Project } from '@/hooks/useDataStore';
 
 export default function TheDojo() {
-    const [isAdmin, setIsAdmin] = useState(false);
+    const { projects, isAdmin, addProject, updateProject, deleteProject, toggleAdmin } = useDataStore();
     const [editingId, setEditingId] = useState<string | null>(null);
-
-    // Persistent Projects Data
-    const [projects, setProjects] = useLocalStorage<Project[]>('ronin_projects', [
-        {
-            id: '1',
-            title: 'SecureAuth',
-            description: 'Open-source authentication library with built-in protection against common web vulnerabilities (CSRF, XSS, SQL Injection).',
-            tech: ['Python', 'Flask', 'JWT', 'PostgreSQL'],
-            github: 'https://github.com/yourusername/secureauth',
-            live: null,
-        },
-        {
-            id: '2',
-            title: 'Network Scanner Pro',
-            description: 'Advanced network reconnaissance tool with custom TCP/UDP scanning capabilities and service fingerprinting.',
-            tech: ['Python', 'Scapy', 'Nmap', 'Threading'],
-            github: 'https://github.com/yourusername/network-scanner',
-            live: null,
-        },
-    ]);
-
-    // Temp state for editing
     const [editForm, setEditForm] = useState<Project | null>(null);
 
     const handleEdit = (project: Project) => {
@@ -48,31 +17,37 @@ export default function TheDojo() {
 
     const handleSave = () => {
         if (!editForm) return;
+        updateProject(editForm.id, editForm);
+        setEditingId(null);
+        setEditForm(null);
+    };
 
-        setProjects(prev => prev.map(p => p.id === editForm.id ? editForm : p));
+    const handleCancel = () => {
         setEditingId(null);
         setEditForm(null);
     };
 
     const handleDelete = (id: string) => {
         if (confirm('Delete this project?')) {
-            setProjects(prev => prev.filter(p => p.id !== id));
+            deleteProject(id);
         }
     };
 
-    const handleAdd = () => {
-        const newProject: Project = {
-            id: Date.now().toString(),
+    const handleAddNew = () => {
+        const newProject = addProject({
             title: 'New Project',
-            description: 'Description goes here...',
-            tech: ['Tech 1', 'Tech 2'],
-            github: '#',
-            live: null
-        };
-        setProjects(prev => [...prev, newProject]);
-        // Automatically enter edit mode for new project
+            description: 'Project description...',
+            tech: ['Tech1', 'Tech2'],
+            github: 'https://github.com/yourusername/project',
+            live: null,
+        });
         setEditingId(newProject.id);
         setEditForm(newProject);
+    };
+
+    const handleFieldChange = (field: keyof Project, value: any) => {
+        if (!editForm) return;
+        setEditForm({ ...editForm, [field]: value });
     };
 
     return (
@@ -96,14 +71,7 @@ export default function TheDojo() {
                         </p>
                     </div>
 
-                    {/* Admin Toggle (Hidden/Subtle) */}
-                    <button
-                        onClick={() => setIsAdmin(!isAdmin)}
-                        className={`p-2 rounded-full transition-colors ${isAdmin ? 'bg-gold text-charcoal' : 'text-ink/10 dark:text-bone/10 hover:text-ink dark:hover:text-bone'}`}
-                        title="Toggle Admin Mode"
-                    >
-                        {isAdmin ? <Unlock className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
-                    </button>
+                    {/* Admin Toggle - Now controlled by footer toggle */}
                 </motion.div>
 
                 {/* Projects */}
@@ -122,7 +90,7 @@ export default function TheDojo() {
 
                         {isAdmin && (
                             <button
-                                onClick={handleAdd}
+                                onClick={handleAddNew}
                                 className="flex items-center gap-2 px-4 py-2 bg-gold text-charcoal font-bold font-mono rounded hover:bg-gold/80 transition-colors"
                             >
                                 <Plus className="w-4 h-4" /> Add Project
