@@ -1,0 +1,386 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import Fonts - Ink & Blade Theme */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Cinzel:wght@400;600;700;900&family=Noto+Serif+JP:wght@400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+/* Global Styles - Monochrome Manga Aesthetic */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-paper dark:bg-void text-ink dark:text-bone;
+  font-family: 'Playfair Display', serif;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Paper Grain Texture - Light Mode (Pure CSS) */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(circle at 20% 50%, transparent 1%, rgba(0, 0, 0, 0.5) 1%, transparent 2%),
+    radial-gradient(circle at 60% 30%, transparent 1%, rgba(0, 0, 0, 0.5) 1%, transparent 2%),
+    radial-gradient(circle at 80% 70%, transparent 1%, rgba(0, 0, 0, 0.5) 1%, transparent 2%),
+    radial-gradient(circle at 40% 80%, transparent 1%, rgba(0, 0, 0, 0.5) 1%, transparent 2%),
+    radial-gradient(circle at 10% 20%, transparent 1%, rgba(0, 0, 0, 0.5) 1%, transparent 2%),
+    radial-gradient(circle at 90% 40%, transparent 1%, rgba(0, 0, 0, 0.5) 1%, transparent 2%),
+    radial-gradient(circle at 30% 60%, transparent 1%, rgba(0, 0, 0, 0.5) 1%, transparent 2%),
+    radial-gradient(circle at 70% 10%, transparent 1%, rgba(0, 0, 0, 0.5) 1%, transparent 2%);
+  background-size: 200px 200px, 150px 150px, 250px 250px, 180px 180px, 220px 220px, 190px 190px, 210px 210px, 170px 170px;
+  background-position: 0 0, 40px 60px, 130px 270px, 70px 100px, 50px 150px, 110px 30px, 160px 200px, 20px 240px;
+  filter: contrast(300%);
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+}
+
+/* Charcoal Dust Texture - Dark Mode */
+.dark body::before {
+  background-image:
+    radial-gradient(circle at 25% 45%, transparent 1%, rgba(255, 255, 255, 0.5) 1%, transparent 2%),
+    radial-gradient(circle at 65% 35%, transparent 1%, rgba(255, 255, 255, 0.5) 1%, transparent 2%),
+    radial-gradient(circle at 85% 75%, transparent 1%, rgba(255, 255, 255, 0.5) 1%, transparent 2%),
+    radial-gradient(circle at 35% 85%, transparent 1%, rgba(255, 255, 255, 0.5) 1%, transparent 2%),
+    radial-gradient(circle at 15% 25%, transparent 1%, rgba(255, 255, 255, 0.5) 1%, transparent 2%),
+    radial-gradient(circle at 95% 45%, transparent 1%, rgba(255, 255, 255, 0.5) 1%, transparent 2%);
+  background-size: 180px 180px, 160px 160px, 220px 220px, 190px 190px, 200px 200px, 170px 170px;
+  background-position: 0 0, 50px 70px, 120px 250px, 80px 110px, 60px 160px, 100px 40px;
+  filter: contrast(250%);
+  opacity: 0.08;
+  mix-blend-mode: screen;
+}
+
+/* Additional Paper Texture Layer */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    repeating-linear-gradient(0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.02) 2px,
+      rgba(0, 0, 0, 0.02) 4px);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.3;
+}
+
+.dark body::after {
+  background:
+    repeating-linear-gradient(0deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.01) 2px,
+      rgba(255, 255, 255, 0.01) 4px);
+}
+
+/* Content Layer */
+#__next,
+main {
+  position: relative;
+  z-index: 3;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-playfair text-ink dark:text-bone;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
+
+/* Selection */
+::selection {
+  @apply bg-ink dark:bg-bone text-paper dark:text-void;
+}
+
+/* Scrollbar - Minimal Black/White */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-paper dark:bg-void;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-ink dark:bg-bone;
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-blood;
+}
+
+/* Brush Stroke Effect */
+@layer utilities {
+  .brush-underline {
+    position: relative;
+    display: inline-block;
+  }
+
+  .brush-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    @apply bg-ink dark:bg-bone;
+    transition: width 0.4s ease-out;
+  }
+
+  .brush-underline:hover::after {
+    width: 100%;
+    animation: brushStroke 0.4s ease-out forwards;
+  }
+
+  .brush-strike {
+    position: relative;
+  }
+
+  .brush-strike::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -5%;
+    width: 0;
+    height: 2px;
+    @apply bg-ink dark:bg-bone;
+    transform: translateY(-50%) rotate(-2deg);
+    opacity: 0;
+  }
+
+  .brush-strike:hover::before {
+    width: 110%;
+    opacity: 0.8;
+    animation: brushStroke 0.3s ease-out forwards;
+  }
+}
+
+/* Torn Paper Edge Effect */
+.torn-edge {
+  clip-path: polygon(0% 2%, 3% 0%, 8% 1%, 15% 0%, 20% 2%, 28% 1%, 35% 0%, 42% 1%,
+      50% 0%, 58% 1%, 65% 0%, 72% 2%, 78% 1%, 85% 0%, 92% 1%, 97% 0%,
+      100% 2%, 99% 8%, 100% 15%, 99% 22%, 100% 30%, 99% 38%, 100% 45%,
+      99% 52%, 100% 60%, 99% 68%, 100% 75%, 99% 82%, 100% 88%, 98% 95%,
+      100% 98%, 95% 99%, 88% 100%, 82% 99%, 75% 100%, 68% 99%, 60% 100%,
+      52% 99%, 45% 100%, 38% 99%, 30% 100%, 22% 99%, 15% 100%, 8% 99%,
+      2% 100%, 1% 95%, 0% 88%, 1% 82%, 0% 75%, 1% 68%, 0% 60%, 1% 52%,
+      0% 45%, 1% 38%, 0% 30%, 1% 22%, 0% 15%, 1% 8%);
+}
+
+/* Grayscale Filter */
+.manga-filter {
+  filter: grayscale(100%) contrast(1.1);
+  mix-blend-mode: luminosity;
+}
+
+/* Kanji Watermark */
+.kanji-watermark {
+  position: relative;
+}
+
+.kanji-watermark::before {
+  content: attr(data-kanji);
+  position: absolute;
+  font-size: 25rem;
+  @apply font-noto text-ink dark:text-bone;
+  font-weight: 900;
+  opacity: 0.02;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-5deg);
+  z-index: -1;
+  pointer-events: none;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .kanji-watermark::before {
+    font-size: 12rem;
+  }
+}
+
+/* Ink Splash */
+.ink-splash {
+  position: relative;
+}
+
+.ink-splash::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -10%;
+  width: 400px;
+  height: 100%;
+  background: radial-gradient(ellipse at center,
+      rgba(0, 0, 0, 0.08) 0%,
+      transparent 70%);
+  transform: rotate(-15deg) scaleX(1.5);
+  pointer-events: none;
+}
+
+.dark .ink-splash::after {
+  background: radial-gradient(ellipse at center,
+      rgba(239, 239, 239, 0.05) 0%,
+      transparent 70%);
+}
+
+/* Paper Card - No glassmorphism */
+.paper-card {
+  @apply bg-white dark:bg-charcoal border-2 border-ink/10 dark:border-bone/10;
+  box-shadow:
+    4px 4px 0px rgba(0, 0, 0, 0.1),
+    8px 8px 0px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dark .paper-card {
+  box-shadow:
+    4px 4px 0px rgba(239, 239, 239, 0.05),
+    8px 8px 0px rgba(239, 239, 239, 0.02);
+}
+
+.paper-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow:
+    6px 6px 0px rgba(0, 0, 0, 0.15),
+    12px 12px 0px rgba(0, 0, 0, 0.08);
+}
+
+/* Manga Panel Layout */
+.manga-panel {
+  position: relative;
+  border: 4px solid;
+  @apply border-ink dark:border-bone;
+}
+
+.manga-panel::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 1px solid;
+  @apply border-ink/30 dark:border-bone/30;
+  pointer-events: none;
+}
+
+/* Remove all blue/glow effects */
+.no-glow {
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+/* Minimal Button */
+.ink-button {
+  @apply px-6 py-3 border-2 border-ink dark:border-bone bg-transparent text-ink dark:text-bone;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.ink-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  @apply bg-ink dark:bg-bone;
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.ink-button:hover::before {
+  left: 0;
+}
+
+.ink-button:hover {
+  @apply text-paper dark:text-void;
+}
+
+/* Terminal Text - Pure Monochrome */
+.terminal-text {
+  @apply font-mono text-ink dark:text-bone;
+}
+
+.terminal-prompt::before {
+  content: '$ ';
+  @apply text-blood;
+}
+
+/* Animations */
+@keyframes brushStroke {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes inkSplash {
+  0% {
+    transform: scale(0) rotate(-5deg);
+    opacity: 0;
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+}
+
+/* Smooth transitions */
+* {
+  transition-property: background-color, border-color, color;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
+}
