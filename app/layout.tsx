@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import CustomCursor from "@/components/CustomCursor";
 import PageLoader from "@/components/PageLoader";
@@ -46,6 +47,7 @@ export default function RootLayout({
                         <RoninRadio />
                     </AdminProvider>
                 </ThemeProvider>
+                <SpeedInsights />
             </body>
         </html>
     );
