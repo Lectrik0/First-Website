@@ -9,6 +9,7 @@ import SakuraRain from "@/components/SakuraRain";
 import { AdminProvider } from "@/contexts/AdminContext";
 import QuakeTerminal from "@/components/QuakeTerminal";
 import ZenMode from "@/components/ZenMode";
+import RoninRadio from "@/components/RoninRadio";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
 export const metadata: Metadata = {
@@ -42,6 +43,7 @@ export default function RootLayout({
                         </ErrorBoundary>
                         <QuakeTerminal />
                         <ZenMode />
+                        <RoninRadio />
                     </AdminProvider>
                 </ThemeProvider>
             </body>
